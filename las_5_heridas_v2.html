@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Las 5 heridas que impiden ser uno mismo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif !important;
+    background: #F7F6F2;
+    color: #2C2C2A;
+  }
+  body { padding: 28px 16px 70px; line-height: 1.55; }
+  .wrap { max-width: 740px; margin: 0 auto; }
+
+  h1, h2, h3, p, div, span, label, button { font-family: inherit; }
+
+  h1 {
+    font-size: 26px; font-weight: 700; text-align: center;
+    margin: 8px 0 6px; color: #1f1f1d;
+  }
+  .subtitle { text-align: center; color: #74726a; font-size: 14.5px; margin: 0 0 30px; }
+
+  .herida-card {
+    background: #ffffff;
+    border: 1px solid #e2dfd4;
+    border-radius: 18px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .herida-card.open { border-width: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
+
+  .herida-head {
+    padding: 18px 20px;
+    display: flex; align-items: center; gap: 16px;
+    cursor: pointer; user-select: none;
+  }
+  .herida-head:hover { background: #fafaf7; }
+
+  .dot { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; border: 2.5px solid; }
+
+  .herida-title { font-weight: 700; font-size: 17px; color: #1f1f1d; }
+  .herida-mask { font-size: 13px; color: #74726a; margin-top: 3px; }
+
+  .chevron-btn {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 12.5px; font-weight: 700;
+    color: #fff; background: #2C2C2A;
+    padding: 7px 14px; border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .herida-body { padding: 0 20px 22px; display: none; }
+  .herida-card.open .herida-body { display: block; }
+
+  .raiz { font-size: 14px; color: #50503; color:#52514a; margin: 0 0 16px; line-height: 1.6; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 4px; }
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  .col-title {
+    font-size: 11.5px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #8a8880; margin: 0 0 10px;
+    border-bottom: 2px solid #efece2; padding-bottom: 6px;
+  }
+
+  .silhouette-wrap {
+    display: flex; justify-content: center;
+    background: #fafaf6; border-radius: 14px;
+    padding: 10px 0; margin-bottom: 12px;
+  }
+
+  .feat-item { display: flex; gap: 8px; padding: 5px 0; font-size: 13.5px; line-height: 1.5; color: #2C2C2A; }
+  .feat-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+
+  .frase-box {
+    border-radius: 12px; padding: 14px 18px; margin-top: 18px;
+    font-size: 14px; font-style: italic; text-align: center;
+    font-weight: 600;
+  }
+
+  .btn {
+    display: block; width: 100%;
+    padding: 17px; border-radius: 16px; border: none;
+    cursor: pointer; font-size: 16px; font-weight: 700;
+    font-family: inherit;
+    background: #2C2C2A; color: #ffffff;
+    margin-top: 10px;
+    transition: transform 0.08s ease, background 0.15s ease;
+    text-align: center;
+  }
+  .btn:hover { background: #1f1f1d; }
+  .btn:active { transform: scale(0.98); }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1.5px solid #d8d6cc; background: #ffffff;
+    border-radius: 22px; padding: 9px 16px 9px 12px;
+    font-size: 13.5px; font-weight: 600; cursor: pointer;
+    margin-bottom: 22px; color: #2C2C2A; font-family: inherit;
+  }
+  .back-btn:hover { background: #f2f0e8; }
+
+  #test-view, #resultado { display: none; }
+  #test-view h1 { text-align: left; font-size: 22px; }
+  #test-view .subtitle { text-align: left; margin-bottom: 20px; }
+
+  .checklist-box {
+    background: #ffffff; border: 1px solid #e2dfd4; border-radius: 16px;
+    padding: 6px 18px; margin-bottom: 18px;
+  }
+
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px; padding: 13px 0;
+    border-bottom: 1px solid #efece2; font-size: 14.5px; cursor: pointer;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 2px solid #c9c6ba; border-radius: 6px;
+    margin-top: 1px; cursor: pointer; position: relative;
+    background: #fff;
+  }
+  .check-item input[type="checkbox"]:checked {
+    background: #2C2C2A; border-color: #2C2C2A;
+  }
+  .check-item input[type="checkbox"]:checked::after {
+    content: ""; position: absolute; left: 6px; top: 2px;
+    width: 5px; height: 10px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .check-item label { cursor: pointer; flex: 1; }
+
+  .result-card { border: 2.5px solid; border-radius: 18px; padding: 22px; background: #ffffff; margin-top: 22px; }
+  .result-herida-row {
+    display: flex; align-items: center; gap: 12px; border-radius: 12px;
+    padding: 12px 16px; margin-bottom: 10px;
+  }
+  .note { font-size: 12.5px; color: #74726a; margin-top: 14px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="lista-view">
+    <h1>Las 5 heridas que impiden ser uno mismo</h1>
+    <p class="subtitle">Toca cada herida para ver sus características principales.</p>
+    <div id="heridas-list"></div>
+    <button class="btn" onclick="goToTest()">Hacer el test de reflexión</button>
+  </div>
+
+  <div id="test-view">
+    <button class="back-btn" onclick="goToLista()">&larr; Volver a las heridas</button>
+    <h1>Test de reflexión</h1>
+    <p class="subtitle">Selecciona las frases con las que más te identificas:</p>
+    <div class="checklist-box" id="checklist"></div>
+    <button class="btn" onclick="calcularResultado()">Ver mi resultado</button>
+    <div id="resultado"></div>
+  </div>
+
+</div>
+
+<script>
+const heridas = [
+  { id:0, nombre:"El rechazo", mascara:"El huidizo", color:"#EEEDFE", text800:"#3C3489", text600:"#534AB7", stroke:"#7F77DD",
+    raiz:"Siente que no tiene derecho a existir o a ser amado tal como es.",
+    fisico:["Cuerpo delgado y estrecho, parece ocupar poco espacio", "Hombros caídos hacia adentro, postura encogida", "Mirada esquiva, evita el contacto visual", "Energía contraída hacia el centro del cuerpo"],
+    psico:["Evita el conflicto y las situaciones sociales", "Se rechaza a sí mismo antes que otros lo hagan", "Siente que no merece ocupar espacio", "Tiende a huir o volverse invisible", "Busca refugio en la soledad o lo imaginario"],
+    frase:"No merezco estar aquí ni ser amado tal como soy.",
+    bodyType:"thin" },
+  { id:1, nombre:"El abandono", mascara:"El dependiente", color:"#FAEEDA", text800:"#633806", text600:"#BA7517", stroke:"#BA7517",
+    raiz:"Miedo profundo a quedarse solo, sin apoyo ni sostén.",
+    fisico:["Cuerpo que parece 'colgar', se dobla hacia adelante", "Brazos y piernas algo flojos, falta de firmeza", "Mirada que busca aprobación en el otro", "Voz y gestos que piden atención sin decirlo"],
+    psico:["Necesita atención y validación constante", "Le cuesta tomar decisiones por sí solo", "Se victimiza para retener a los demás", "Hace mucho por otros con tal de no ser abandonado", "Oscila entre apego excesivo y miedo al rechazo"],
+    frase:"Necesito que estés aquí, no puedo estar solo.",
+    bodyType:"slouch" },
+  { id:2, nombre:"La humillación", mascara:"El masoquista", color:"#FAECE7", text800:"#712B13", text600:"#993C1D", stroke:"#D85A30",
+    raiz:"Vergüenza aprendida por tener necesidades o deseos propios.",
+    fisico:["Cuerpo más robusto, como si cargara peso extra", "Cuello corto, hombros que se hunden", "Postura que se encoge o se hace pequeña", "Sonríe incluso cuando algo le incomoda"],
+    psico:["Se sacrifica constantemente por los demás", "Se pone siempre en último lugar", "Carga con las responsabilidades de otros", "Se humilla antes de que alguien más lo haga", "Le cuesta decir no o pedir algo para sí"],
+    frase:"Mis necesidades son una carga para los demás.",
+    bodyType:"heavy" },
+  { id:3, nombre:"La traición", mascara:"El controlador", color:"#E6F1FB", text800:"#0C447C", text600:"#185FA5", stroke:"#378ADD",
+    raiz:"Decepción profunda de alguien en quien se confiaba.",
+    fisico:["Cuerpo fuerte, erguido, de presencia notoria", "Hombros amplios, postura que proyecta seguridad", "Mirada intensa y directa, difícil de sostener", "Movimientos firmes y decididos"],
+    psico:["Necesita controlarlo todo para no salir herido", "Es seductor, carismático y persuasivo", "Exige mucho de sí mismo y de los demás", "Le cuesta delegar y confiar plenamente", "Puede volverse dominante sin darse cuenta"],
+    frase:"Si no lo controlo yo, algo saldrá mal.",
+    bodyType:"strong" },
+  { id:4, nombre:"La injusticia", mascara:"El rígido", color:"#EAF3DE", text800:"#27500A", text600:"#3B6D11", stroke:"#639922",
+    raiz:"Entorno frío, exigente, o que no validaba sus emociones.",
+    fisico:["Cuerpo recto, tenso, bien proporcionado y cuidado", "Postura muy erguida, casi rígida, simétrica", "Movimientos precisos y controlados", "Rostro que rara vez muestra emoción"],
+    psico:["Busca la perfección en todo lo que hace", "Es muy autocrítico y exigente consigo mismo", "Le cuesta expresar o reconocer sus emociones", "Necesita que todo sea 'justo' y correcto", "Puede volverse frío o distante para no ser vulnerable"],
+    frase:"Tengo que ser perfecto para merecer un trato justo.",
+    bodyType:"rigid" }
+];
+
+const frases = [
+  {t:"Cuando siento que alguien podría rechazarme, prefiero alejarme yo primero.", h:0},
+  {t:"Me cuesta mucho estar solo, siempre necesito tener a alguien cerca.", h:1},
+  {t:"Hago mucho por los demás pero pocas veces pido algo para mí.", h:2},
+  {t:"Confiar completamente en alguien me resulta muy difícil.", h:3},
+  {t:"Me exijo demasiado y me cuesta perdonarme los errores.", h:4},
+  {t:"Siento que no siempre tengo derecho a expresar lo que necesito.", h:0},
+  {t:"Me preocupa mucho que la gente importante para mí se vaya de mi vida.", h:1},
+  {t:"Siento vergüenza cuando alguien me ve necesitado o vulnerable.", h:2},
+  {t:"Necesito tener el control de las situaciones para sentirme tranquilo.", h:3},
+  {t:"Me cuesta mostrar mis emociones, prefiero parecer que todo está bien.", h:4},
+  {t:"Tiendo a desaparecer o volverme invisible cuando algo me incomoda.", h:0},
+  {t:"Me victimizo un poco con tal de que no se alejen de mí.", h:1},
+  {t:"Me cuesta decir que no, aunque por dentro no quiera.", h:2},
+  {t:"Me cuesta delegar porque siento que nadie lo hará tan bien como yo.", h:3},
+  {t:"Soy muy autocrítico y noto sobre todo lo que hago mal.", h:4}
+];
+
+function silueta(h) {
+  const s = h.stroke, fill = h.color;
+  const bodies = {
+    thin: '<path d="M100 18c-7 0-12 6-12 13s5 12 12 12 12-5 12-12-5-13-12-13z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/><path d="M100 44c-9 0-16 4-18 12l-4 38c-1 6 3 11 9 11h2l3 55c0 4 3 7 7 7h2c4 0 7-3 7-7l1-40h2l1 40c0 4 3 7 7 7h2c4 0 7-3 7-7l3-55h2c6 0 10-5 9-11l-4-38c-2-8-9-12-18-12z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/>',
+    slouch: '<path d="M104 18c-7 0-12 6-12 13s5 12 12 12 12-5 12-12-5-13-12-13z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/><path d="M100 46c-10 2-17 8-18 16l-5 36c-1 6 3 11 9 11h2l4 53c0 4 3 7 7 7h2c4 0 7-3 7-7l0-38h3l1 38c0 4 3 7 7 7h2c4 0 7-3 7-7l3-50c8-4 13-12 11-20l-3-14c-2-7-9-9-15-7" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/>',
+    heavy: '<path d="M100 16c-8 0-14 6-14 14s6 13 14 13 14-5 14-13-6-14-14-14z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/><path d="M100 43c-13 0-23 6-25 16l-6 34c-1 7 4 12 11 12h2l4 56c0 4 3 7 7 7h3c4 0 7-3 7-7l0-41h4l0 41c0 4 3 7 7 7h3c4 0 7-3 7-7l4-56h2c7 0 12-5 11-12l-6-34c-2-10-12-16-25-16z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/>',
+    strong: '<path d="M100 16c-8 0-13 6-13 13s5 13 13 13 13-6 13-13-5-13-13-13z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/><path d="M100 42c-14 0-22 5-26 13l-7 22c-2 6 2 12 8 12h3l-2 13c0 5 4 9 9 9l-2 53c0 4 3 7 7 7h3c4 0 7-3 7-7l1-41h4l1 41c0 4 3 7 7 7h3c4 0 7-3 7-7l-2-53c5 0 9-4 9-9l-2-13h3c6 0 10-6 8-12l-7-22c-4-8-12-13-26-13z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/>',
+    rigid: '<path d="M100 17c-8 0-13 6-13 13s5 13 13 13 13-6 13-13-5-13-13-13z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/><path d="M100 43h0c-9 0-16 4-17 11l-3 40c-1 5 3 10 8 10h2l2 55c0 4 3 7 7 7h2c4 0 7-3 7-7l0-42h4l0 42c0 4 3 7 7 7h2c4 0 7-3 7-7l2-55h2c5 0 9-5 8-10l-3-40c-1-7-8-11-17-11z" fill="'+fill+'" stroke="'+s+'" stroke-width="2"/>'
+  };
+  return '<svg width="110" height="200" viewBox="0 0 200 220">' + bodies[h.bodyType] + '</svg>';
+}
+
+let openHeridaIdx = 0;
+let seleccionadas = new Set();
+
+function renderHeridasList() {
+  document.getElementById('heridas-list').innerHTML = heridas.map(function(h, i) {
+    var open = openHeridaIdx === i;
+    var body =
+      '<div class="herida-body">' +
+        '<p class="raiz">' + h.raiz + '</p>' +
+        '<div class="two-col">' +
+          '<div>' +
+            '<div class="col-title">Cómo se ve físicamente</div>' +
+            '<div class="silhouette-wrap">' + silueta(h) + '</div>' +
+            h.fisico.map(function(p){ return '<div class="feat-item"><span class="feat-dot" style="background:' + h.text600 + '"></span><span>' + p + '</span></div>'; }).join('') +
+          '</div>' +
+          '<div>' +
+            '<div class="col-title">Características psicológicas</div>' +
+            h.psico.map(function(p){ return '<div class="feat-item"><span class="feat-dot" style="background:' + h.text600 + '"></span><span>' + p + '</span></div>'; }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="frase-box" style="background:' + h.color + '; color:' + h.text800 + ';">"' + h.frase + '"</div>' +
+      '</div>';
+
+    return '<div class="herida-card' + (open ? ' open' : '') + '" style="' + (open ? 'border-color:' + h.stroke + ';' : '') + '">' +
+      '<div class="herida-head" onclick="toggleHerida(' + i + ')">' +
+        '<div class="dot" style="background:' + h.color + '; border-color:' + h.stroke + ';"></div>' +
+        '<div><div class="herida-title">' + h.nombre + '</div><div class="herida-mask">Máscara: ' + h.mascara + '</div></div>' +
+        '<div class="chevron-btn">' + (open ? 'ocultar' : 'ver más') + '</div>' +
+      '</div>' +
+      body +
+    '</div>';
+  }).join('');
+}
+
+function toggleHerida(i) {
+  openHeridaIdx = openHeridaIdx === i ? -1 : i;
+  renderHeridasList();
+}
+
+function goToTest() {
+  document.getElementById('lista-view').style.display = 'none';
+  document.getElementById('test-view').style.display = 'block';
+  renderChecklist();
+  window.scrollTo(0,0);
+}
+
+function goToLista() {
+  document.getElementById('test-view').style.display = 'none';
+  document.getElementById('lista-view').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function renderChecklist() {
+  document.getElementById('checklist').innerHTML = frases.map(function(f, i) {
+    return '<div class="check-item" onclick="toggleFrase(' + i + ', event)">' +
+      '<input type="checkbox" id="f' + i + '" ' + (seleccionadas.has(i) ? 'checked' : '') + '>' +
+      '<label for="f' + i + '">' + f.t + '</label>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleFrase(i, e) {
+  if (e.target.tagName !== 'INPUT') {
+    var cb = document.getElementById('f' + i);
+    cb.checked = !cb.checked;
+  }
+  if (document.getElementById('f' + i).checked) seleccionadas.add(i);
+  else seleccionadas.delete(i);
+}
+
+function calcularResultado() {
+  var conteo = [0,0,0,0,0];
+  seleccionadas.forEach(function(i){ conteo[frases[i].h]++; });
+  var max = Math.max.apply(null, conteo);
+  var res = document.getElementById('resultado');
+  res.style.display = 'block';
+  if (max === 0) {
+    res.innerHTML = '<p style="font-size:13.5px; color:#74726a; text-align:center; margin-top:20px;">Selecciona al menos una frase para ver tu resultado.</p>';
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+  var top = conteo.map(function(c,i){ return {c:c, i:i}; }).filter(function(x){ return x.c === max; }).map(function(x){ return heridas[x.i]; });
+  res.innerHTML =
+    '<div class="result-card" style="border-color:' + top[0].stroke + ';">' +
+      '<div style="font-weight:700; font-size:16px; margin-bottom:14px;">Tu herida más activa hoy:</div>' +
+      top.map(function(h){
+        return '<div class="result-herida-row" style="background:' + h.color + ';">' +
+          '<div class="dot" style="width:34px;height:34px;background:' + h.color + '; border-color:' + h.stroke + ';"></div>' +
+          '<div><div style="font-weight:700; color:' + h.text800 + '; font-size:15px;">' + h.nombre + '</div><div style="font-size:12.5px; color:' + h.text600 + ';">Máscara: ' + h.mascara + '</div></div>' +
+        '</div>';
+      }).join('') +
+      '<div class="frase-box" style="background:#F7F6F2; color:#52514a;">' + top.map(function(h){ return '"' + h.frase + '"'; }).join('<br>') + '</div>' +
+      '<p class="note">Recuerda: reconocer una herida no es un diagnóstico, es el primer paso para mirarla con más conciencia y compasión.</p>' +
+    '</div>';
+  res.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+renderHeridasList();
+</script>
+</body>
+</html>
